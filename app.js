@@ -18,7 +18,7 @@ const mongoose = require('mongoose');
 app.use(cors());
 app.use(helmet());
 app.use(mongoSanitize());
-app.use(xss());
+app.use(xssClean());
 app.use(hpp());
 
 // Body Parser ----------
@@ -28,3 +28,20 @@ app.use(bodyParser.json());
 const limiter = rateLimit({WindowMs:15*60*100,max:3000});
 app.use(limiter);
 
+let URI = "mongodb://localhost:27017";
+let OPTIONS = {user:'',pass:''}
+mongoose.connect(URI,OPTIONS).then(() => console.log("Connected Successfully"))
+.catch((err) => {
+  console.error(err);
+});
+
+// Routing Implement
+app.use('/api/v1',router);
+
+// Undefine Route
+app.use('*',(req,res)=>{
+    res.status(404).json({status:'fail',data:'Not Found'});
+});
+
+
+module.exports = app;
