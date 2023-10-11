@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 const limiter = rateLimit({WindowMs:15*60*100,max:3000});
 app.use(limiter);
 
-let URI = "mongodb://localhost:27017";
+let URI = "mongodb://localhost:27017/ToDo";
 let OPTIONS = {user:'',pass:''}
 mongoose.connect(URI,OPTIONS).then(() => console.log("Connected Successfully"))
 .catch((err) => {
